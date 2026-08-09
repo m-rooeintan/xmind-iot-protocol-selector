@@ -1,1 +1,0 @@
-# xmind-iot-protocol-selector
