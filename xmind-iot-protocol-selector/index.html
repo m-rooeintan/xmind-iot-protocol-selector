@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="XminD IoT Protocol Selector - راهنمای انتخاب پروتکل مناسب برای پروژه‌های IoT">
+    <title>XminD IoT Protocol Selector | MQTT یا HTTP؟</title>
+    
+    <!-- Preconnect to font CDN for better performance -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Pattern -->
+    <div class="bg-pattern" aria-hidden="true"></div>
+    
+    <!-- Main Container -->
+    <main class="container">
+        
+        <!-- SECTION 1: HERO -->
+        <section id="hero" class="section hero-section">
+            <div class="hero-content">
+                <div class="brand-badge">
+                    <svg class="brand-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>XminD</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    <span class="highlight">MQTT</span> یا <span class="highlight">HTTP</span>؟
+                </h1>
+                
+                <p class="hero-subtitle">
+                    برای پروژه IoT کدام پروتکل انتخاب بهتری است؟
+                </p>
+                
+                <p class="hero-description">
+                    همیشه جواب MQTT نیست. نوع ارتباط، معماری سیستم و نحوه مصرف داده تعیین می‌کنند کدام انتخاب منطقی‌تر است.
+                </p>
+                
+                <button id="startBtn" class="btn btn-primary btn-large" aria-label="شروع انتخاب پروتکل">
+                    شروع انتخاب پروتکل
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Decorative Network Visualization -->
+            <div class="network-viz" aria-hidden="true">
+                <div class="node node-1"></div>
+                <div class="node node-2"></div>
+                <div class="node node-3"></div>
+                <div class="node node-4"></div>
+                <div class="connection conn-1"></div>
+                <div class="connection conn-2"></div>
+                <div class="connection conn-3"></div>
+            </div>
+        </section>
+        
+        <!-- SECTION 2: UNDERSTAND THE DIFFERENCE -->
+        <section id="understand" class="section understand-section">
+            <h2 class="section-title">اول مدل ارتباط را بشناسیم</h2>
+            
+            <div class="comparison-diagrams">
+                <!-- HTTP Diagram -->
+                <div class="diagram-card http-diagram">
+                    <div class="diagram-header">
+                        <h3>HTTP</h3>
+                        <span class="diagram-tag">Request / Response</span>
+                    </div>
+                    
+                    <div class="diagram-content">
+                        <div class="diagram-node device-node">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+                                <line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="2"/>
+                                <line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Device</span>
+                        </div>
+                        
+                        <div class="diagram-arrow">
+                            <span class="arrow-label request-label">Request</span>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="diagram-node server-node">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Server</span>
+                        </div>
+                        
+                        <div class="diagram-arrow reverse">
+                            <span class="arrow-label response-label">Response</span>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M12 5V19M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="diagram-node device-node">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+                                <line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="2"/>
+                                <line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Device</span>
+                        </div>
+                    </div>
+                    
+                    <div class="diagram-tooltip" role="tooltip" aria-hidden="true">
+                        <p>در HTTP، دستگاه درخواست می‌فرستد و منتظر پاسخ می‌ماند.</p>
+                    </div>
+                </div>
+                
+                <!-- MQTT Diagram -->
+                <div class="diagram-card mqtt-diagram">
+                    <div class="diagram-header">
+                        <h3>MQTT</h3>
+                        <span class="diagram-tag">Publish / Subscribe</span>
+                    </div>
+                    
+                    <div class="diagram-content mqtt-layout">
+                        <div class="mqtt-publisher">
+                            <div class="diagram-node publisher-node">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M12 7V12L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                <span>Publisher</span>
+                            </div>
+                            <div class="arrow-down">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <div class="mqtt-broker">
+                            <div class="diagram-node broker-node">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M7 7H17M7 12H17M7 17H17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                <span>Broker</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mqtt-subscribers">
+                            <div class="subscribers-row">
+                                <div class="diagram-node subscriber-node">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                        <rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+                                        <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                                    </svg>
+                                    <span>App</span>
+                                </div>
+                                <div class="diagram-node subscriber-node">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                        <rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+                                        <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                                    </svg>
+                                    <span>DB</span>
+                                </div>
+                                <div class="diagram-node subscriber-node">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                        <rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+                                        <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                                    </svg>
+                                    <span>Dashboard</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="diagram-tooltip" role="tooltip" aria-hidden="true">
+                        <p>در MQTT، Publisher داده را به Broker می‌فرستد و Subscriberها دریافت می‌کنند.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SECTION 3: INTERACTIVE PROTOCOL SELECTOR -->
+        <section id="selector" class="section selector-section">
+            <h2 class="section-title">پروژه‌ات را توصیف کن</h2>
+            <p class="section-subtitle">با پاسخ دادن به چند سؤال، یک پیشنهاد اولیه دریافت کن.</p>
+            
+            <!-- Progress Indicator -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-steps">
+                    <span class="step active" data-step="1">1</span>
+                    <span class="step" data-step="2">2</span>
+                    <span class="step" data-step="3">3</span>
+                    <span class="step" data-step="4">4</span>
+                    <span class="step" data-step="5">5</span>
+                </div>
+            </div>
+            
+            <!-- Questionnaire Container -->
+            <div id="questionnaire" class="questionnaire-container">
+                <!-- Questions will be injected by JavaScript -->
+            </div>
+            
+            <!-- Result Card (Hidden Initially) -->
+            <div id="resultCard" class="result-card hidden" aria-live="polite">
+                <div class="result-header">
+                    <span class="result-label">پیشنهاد اولیه</span>
+                    <h3 id="resultProtocol" class="result-protocol"></h3>
+                    <div class="match-percentage">
+                        <span id="matchPercent">0</span>% Match
+                    </div>
+                </div>
+                
+                <div class="result-body">
+                    <div class="score-bars">
+                        <div class="score-bar-container">
+                            <div class="score-bar-label">
+                                <span>MQTT</span>
+                                <span id="mqttScoreValue">0%</span>
+                            </div>
+                            <div class="score-bar">
+                                <div id="mqttScoreBar" class="score-bar-fill mqtt-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="score-bar-container">
+                            <div class="score-bar-label">
+                                <span>HTTP</span>
+                                <span id="httpScoreValue">0%</span>
+                            </div>
+                            <div class="score-bar">
+                                <div id="httpScoreBar" class="score-bar-fill http-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-reasons">
+                        <h4>چرا این انتخاب؟</h4>
+                        <ul id="reasonsList">
+                            <!-- Reasons will be injected by JavaScript -->
+                        </ul>
+                    </div>
+                    
+                    <div class="result-alternative">
+                        <h4>اما...</h4>
+                        <p id="alternativeText"></p>
+                    </div>
+                    
+                    <div class="result-disclaimer">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <p>این نتیجه یک Recommendation است، نه یک قانون مطلق.</p>
+                    </div>
+                </div>
+                
+                <button id="restartBtn" class="btn btn-secondary" aria-label="شروع دوباره">
+                    شروع دوباره
+                </button>
+            </div>
+        </section>
+        
+        <!-- SECTION 4: COMPARISON TABLE -->
+        <section id="comparison" class="section comparison-section">
+            <h2 class="section-title">مقایسه MQTT و HTTP</h2>
+            
+            <div class="comparison-table-container">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>ویژگی</th>
+                            <th>MQTT</th>
+                            <th>HTTP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="expandable-row" data-detail="MQTT از مدل Publish/Subscribe استفاده می‌کند که برای ارتباطات چندطرفه ایده‌آل است.">
+                            <td>مدل ارتباطی</td>
+                            <td>Publish / Subscribe</td>
+                            <td>Request / Response</td>
+                        </tr>
+                        <tr class="expandable-row" data-detail="MQTT معمولاً از TCP با اتصال دائمی استفاده می‌کند. HTTP می‌تواند Stateless باشد یا از WebSocket برای اتصال دائمی استفاده کند.">
+                            <td>مدل اتصال</td>
+                            <td>Persistent Connection</td>
+                            <td>Stateless / WebSocket</td>
+                        </tr>
+                        <tr class="expandable-row" data-detail="Broker در MQTT نقش واسط را بازی می‌کند و پیام‌ها را بین Publisher و Subscriber مدیریت می‌کند.">
+                            <td>نیاز به Broker</td>
+                            <td>بله (الزامی)</td>
+                            <td>خیر</td>
+                        </tr>
+                        <tr class="expandable-row" data-detail="HTTP ذاتاً برای ارتباطات Request/Response طراحی شده است. MQTT این مدل را پشتیبانی نمی‌کند.">
+                            <td>مناسب برای Request/Response</td>
+                            <td>خیر</td>
+                            <td>بله</td>
+                        </tr>
+                        <tr class="expandable-row" data-detail="MQTT به طور طبیعی از Publish/Subscribe پشتیبانی می‌کند که برای Event-driven architecture عالی است.">
+                            <td>مناسب برای Publish/Subscribe</td>
+                            <td>بله</td>
+                            <td>خیر (بدون WebSocket)</td>
+                        </tr>
+                        <tr class="expandable-row" data-detail="MQTT به راحتی از ارتباطات Many-to-Many پشتیبانی می‌کند. HTTP نیاز به پیاده‌سازی اضافی دارد.">
+                            <td>ارتباط Many-to-Many</td>
+                            <td>عالی</td>
+                            <td>متوسط</td>
+                        </tr>
+                        <tr class="expandable-row" data-detail="HTTP به طور بومی با REST APIها سازگار است. MQTT نیاز به Bridge یا Gateway دارد.">
+                            <td>یکپارچگی با REST API</td>
+                            <td>نیاز به Bridge</td>
+                            <td>بومی</td>
+                        </tr>
+                        <tr class="expandable-row" data-detail="MQTT ذاتاً Event-driven است. HTTP نیاز به Polling یا WebSocket دارد.">
+                            <td>Event-driven Architecture</td>
+                            <td>عالی</td>
+                            <td>متوسط</td>
+                        </tr>
+                        <tr class="expandable-row" data-detail="HTTP به طور بومی در تمام مرورگرها پشتیبانی می‌شود. MQTT نیاز به WebSocket Bridge دارد.">
+                            <td>سازگاری با مرورگر</td>
+                            <td>نیاز به WebSocket</td>
+                            <td>بومی</td>
+                        </tr>
+                        <tr class="expandable-row" data-detail="MQTT برای سناریوهای Real-time monitoring، Sensor networks، و Multi-client data distribution مناسب است. HTTP برای Command/Control، Configuration، و One-to-one communication بهتر است.">
+                            <td>موارد استفاده معمول IoT</td>
+                            <td>Monitoring, Sensors, Multi-client</td>
+                            <td>Command, Config, One-to-one</td>
+                        </tr>
+                        <tr class="expandable-row" data-detail="MQTT نیاز به Broker دارد که پیچیدگی زیرساخت را افزایش می‌دهد. HTTP ساده‌تر است اما برای Real-time نیاز به WebSocket دارد.">
+                            <td>پیچیدگی پیاده‌سازی</td>
+                            <td>متوسط</td>
+                            <td>کم</td>
+                        </tr>
+                        <tr class="expandable-row" data-detail="MQTT با Broker مرکزی مقیاس‌پذیری خوبی دارد. HTTP با Load Balancerها به خوبی مقیاس می‌پذیرد.">
+                            <td>ملاحظات مقیاس‌پذیری</td>
+                            <td>خوب با Broker Cluster</td>
+                            <td>عالی با Load Balancer</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p class="table-note">برای مشاهده توضیحات بیشتر، روی هر ردیف کلیک کنید.</p>
+        </section>
+        
+        <!-- SECTION 5: COMMON MISCONCEPTIONS -->
+        <section id="misconceptions" class="section misconceptions-section">
+            <h2 class="section-title">چند تصور اشتباه</h2>
+            
+            <div class="misconceptions-grid">
+                <article class="misconception-card expandable">
+                    <div class="misconception-header">
+                        <span class="misconception-icon">❌</span>
+                        <h3>"MQTT چون برای IoT ساخته شده، همیشه بهتر است."</h3>
+                        <button class="expand-btn" aria-label="بسط توضیحات" aria-expanded="false">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="misconception-content">
+                        <p><strong>چرا اشتباه است؟</strong></p>
+                        <p>انتخاب پروتکل باید بر اساس <strong>معماری سیستم</strong> باشد، نه صرفاً برچسب "IoT". اگر پروژه شما نیاز به ارتباط Request/Response ساده دارد، HTTP ممکن است انتخاب منطقی‌تری باشد. MQTT زمانی برتری دارد که چندین مصرف‌کننده برای داده وجود داشته باشد یا نیاز به مدل Publish/Subscribe باشد.</p>
+                    </div>
+                </article>
+                
+                <article class="misconception-card expandable">
+                    <div class="misconception-header">
+                        <span class="misconception-icon">❌</span>
+                        <h3>"HTTP برای IoT مناسب نیست."</h3>
+                        <button class="expand-btn" aria-label="بسط توضیحات" aria-expanded="false">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="misconception-content">
+                        <p><strong>چرا اشتباه است؟</strong></p>
+                        <p>HTTP هنوز هم برای بسیاری از سناریوهای IoT مناسب است: ارسال داده‌های دوره‌ای، دریافت دستورات کنترل، پیکربندی دستگاه‌ها، و ارتباط با APIهای موجود. بسیاری از دستگاه‌های IoT موفق از HTTP استفاده می‌کنند. مسئله اصلی تطابق پروتکل با نیازهای پروژه است.</p>
+                    </div>
+                </article>
+                
+                <article class="misconception-card expandable">
+                    <div class="misconception-header">
+                        <span class="misconception-icon">❌</span>
+                        <h3>"MQTT یعنی Real-Time."</h3>
+                        <button class="expand-btn" aria-label="بسط توضیحات" aria-expanded="false">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="misconception-content">
+                        <p><strong>چرا oversimplification است؟</strong></p>
+                        <p>MQTT می‌تواند Latency کم ارائه دهد، اما "Real-Time" بودن به عوامل زیادی بستگی دارد: کیفیت شبکه، پیکربندی Broker، QoS level، و بار سرور. HTTP با WebSocket نیز می‌تواند ارتباط Near Real-Time فراهم کند. Real-Time بودن فقط به پروتکل بستگی ندارد.</p>
+                    </div>
+                </article>
+                
+                <article class="misconception-card expandable">
+                    <div class="misconception-header">
+                        <span class="misconception-icon">❌</span>
+                        <h3>"استفاده از MQTT یعنی سیستم حتماً مقیاس‌پذیر است."</h3>
+                        <button class="expand-btn" aria-label="بسط توضیحات" aria-expanded="false">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="misconception-content">
+                        <p><strong>چرا اشتباه است؟</strong></p>
+                        <p>مقیاس‌پذیری به <strong>معماری کلی سیستم</strong> بستگی دارد، نه فقط پروتکل. یک Broker MQTT نادرست پیکربندی شده می‌تواند به سرعت به گلوگاه تبدیل شود. مقیاس‌پذیری نیازمند طراحی صحیح زیرساخت، Load Balancing، و مدیریت منابع است.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+        
+        <!-- SECTION 6: DECISION CHEAT SHEET -->
+        <section id="cheatsheet" class="section cheatsheet-section">
+            <h2 class="section-title">تصمیم‌گیری سریع</h2>
+            
+            <div class="cheatsheet-flowchart">
+                <div class="flowchart-node start-node">
+                    <p>نیاز به Request / Response؟</p>
+                </div>
+                
+                <div class="flowchart-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                
+                <div class="flowchart-branch">
+                    <div class="flowchart-path yes-path">
+                        <div class="flowchart-answer">
+                            <span class="answer-label">Yes</span>
+                            <div class="flowchart-result http-result">
+                                <strong>HTTP</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flowchart-divider">
+                        <span>No</span>
+                    </div>
+                    
+                    <div class="flowchart-arrow">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="flowchart-node">
+                        <p>چند مصرف‌کننده برای داده؟</p>
+                    </div>
+                    
+                    <div class="flowchart-arrow">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="flowchart-branch">
+                        <div class="flowchart-path yes-path">
+                            <div class="flowchart-answer">
+                                <span class="answer-label">Yes</span>
+                                <div class="flowchart-result mqtt-result">
+                                    <strong>MQTT</strong>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flowchart-divider">
+                            <span>No</span>
+                        </div>
+                        
+                        <div class="flowchart-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="flowchart-node final-node">
+                            <p>هر دو مناسب هستند<br>(بسته به سایر نیازها)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SECTION 7: FINAL TAKEAWAY -->
+        <section id="takeaway" class="section takeaway-section">
+            <div class="takeaway-content">
+                <h2 class="takeaway-title">
+                    <span class="takeaway-line">MQTT جای HTTP را نمی‌گیرد.</span>
+                    <span class="takeaway-line">HTTP هم جای MQTT را نمی‌گیرد.</span>
+                </h2>
+                
+                <div class="takeaway-divider"></div>
+                
+                <p class="takeaway-message">
+                    <strong>پروتکل را بر اساس معماری سیستم انتخاب کن، نه بر اساس اسم "IoT".</strong>
+                </p>
+                
+                <div class="brand-signature">
+                    <svg class="brand-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>XminD Educational Tool</span>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <p>طراحی شده توسط XminD | ابزار آموزشی انتخاب پروتکل IoT</p>
+        <p class="footer-note">این ابزار یک راهنمای آموزشی است و نباید به عنوان مرجع مطلق در نظر گرفته شود.</p>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
